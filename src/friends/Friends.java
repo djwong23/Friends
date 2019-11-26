@@ -1,7 +1,10 @@
 package friends;
+
 import java.util.ArrayList;
+
 import structures.Queue;
 import structures.Stack;
+
 public class Friends {
     /**
      * Finds the shortest chain of people from p1 to p2.
@@ -84,10 +87,44 @@ public class Friends {
      * given school
      */
     public static ArrayList<ArrayList<String>> cliques(Graph g, String school) {
-        /** COMPLETE THIS METHOD **/
-        // FOLLOWING LINE IS A PLACEHOLDER TO MAKE COMPILER HAPPY
-        // CHANGE AS REQUIRED FOR YOUR IMPLEMENTATION
-        return null;
+        boolean visited[] = new boolean[g.members.length];
+        ArrayList<ArrayList<String>> out = new ArrayList<ArrayList<String>>();
+        ArrayList<String> in = new ArrayList<String>();
+        Person p = null;
+        Queue q = new Queue<Person>();
+        for (int j = 0; j < visited.length; j++) { //go through all people who are not visited and check all their friends + schools
+            if (visited[j] == false) {
+                p = g.members[j];
+                q.enqueue(p);
+                while (q.size() != 0) { //while the queue has people in it
+                    p = (Person) q.dequeue();
+                    Friend f = p.first;
+                    if (f == null) { //if this guy has no friends, check if he belongs to the school
+                        if (p.school.equals(school))
+                            in.add(p.name);
+                    }
+                    while (f != null) { //while this person currently dequeued has friends
+                        if (!visited[f.fnum]) { //if it isn't visited, mark it as such and enqueue it
+                            visited[f.fnum] = true;
+                            q.enqueue(g.members[f.fnum]);
+
+                            String sch = g.members[f.fnum].school;
+                            if (sch != null) {//if this friend is the same school then put him in "in"
+                                if (sch.equals(school)) {
+                                    in.add(g.members[f.fnum].name);
+                                }
+                            }
+                        }
+                        f = f.next;
+                    }
+                }
+                if (in.size() > 0)
+                    out.add((ArrayList<String>) in.clone());
+                in.clear();
+            }
+        }
+
+        return (out.size() == 0) ? null : out;
     }
 
     /**
