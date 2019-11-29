@@ -106,14 +106,14 @@ public class Friends {
                     while (f != null) { //while this person currently dequeued has friends
                         if (!visited[f.fnum]) { //if it isn't visited, mark it as such and enqueue it
                             visited[f.fnum] = true;
-                            q.enqueue(g.members[f.fnum]);
-
                             String sch = g.members[f.fnum].school;
                             if (sch != null) {//if this friend is the same school then put him in "in"
                                 if (sch.equals(school)) {
+                                    q.enqueue(g.members[f.fnum]);
                                     in.add(g.members[f.fnum].name);
                                 }
                             }
+
                         }
                         f = f.next;
                     }
