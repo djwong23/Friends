@@ -141,7 +141,6 @@ public class Friends {
         }
         return connectors;
     }
-
     private static void DFS(boolean start, Graph g, Person p, boolean[] visited, int[] dfsNum, int[] back, ArrayList<String> connectors, int count, HashSet cons) {
         int num = g.map.get(p.name);
         visited[num] = true;
