@@ -43,9 +43,12 @@ public class Test {
                     System.out.println("No cliques");
             } else {
                 ArrayList<String> out = Friends.connectors(graph);
-                for (String s : out) {
-                    System.out.print(s + " ");
-                }
+                if (out != null) {
+                    for (String s : out) {
+                        System.out.print(s + " ");
+                    }
+                } else
+                    System.out.println("No connectors");
             }
             System.out.print("Method? ");
             num = re.nextInt();

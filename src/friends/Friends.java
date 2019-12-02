@@ -139,7 +139,7 @@ public class Friends {
                 DFS(true, g, g.members[i], visited, dfsNum, back, connectors, count, cons);
             }
         }
-        return connectors;
+        return (connectors.size() > 0) ? connectors : null;
     }
     private static void DFS(boolean start, Graph g, Person p, boolean[] visited, int[] dfsNum, int[] back, ArrayList<String> connectors, int count, HashSet cons) {
         int num = g.map.get(p.name);
