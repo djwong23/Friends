@@ -1,7 +1,6 @@
 package friends;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import structures.Queue;
 import structures.Stack;
 public class Friends {
@@ -132,7 +131,7 @@ public class Friends {
         int[] dfsNum = new int[g.members.length];
         int[] back = new int[g.members.length];
         ArrayList<String> connectors = new ArrayList<>();
-        HashSet<String> cons = new HashSet<>();
+        HashMap<String, Integer> cons = new HashMap<>();
         int count = 1;
         for (int i = 0; i < visited.length; i++) {
             if (visited[i] == false) {
@@ -141,7 +140,8 @@ public class Friends {
         }
         return (connectors.size() > 0) ? connectors : null;
     }
-    private static void DFS(boolean start, Graph g, Person p, boolean[] visited, int[] dfsNum, int[] back, ArrayList<String> connectors, int count, HashSet cons) {
+
+    private static void DFS(boolean start, Graph g, Person p, boolean[] visited, int[] dfsNum, int[] back, ArrayList<String> connectors, int count, HashMap cons) {
         int num = g.map.get(p.name);
         visited[num] = true;
         dfsNum[num] = count;
@@ -155,15 +155,15 @@ public class Friends {
                     back[num] = Math.min(back[num], back[f.fnum]);
                 else if (dfsNum[num] <= back[f.fnum]) {
                     if (!start) {
-                        if (!cons.contains(p.name)) {
+                        if (!cons.containsKey(p.name)) {
                             connectors.add(p.name);
-                            cons.add(p.name);
+                            cons.put(p.name, 1);
                         }
                     } else if (start) { //if it is the start of the DFS, as long as it has two friends and other conditions are fulfilled, it should still be a connector
                         if (p.first != null && p.first.next != null)
-                            if (!cons.contains(p.name)) {
+                            if (!cons.containsKey(p.name)) {
                                 connectors.add(p.name);
-                                cons.add(p.name);
+                                cons.put(p.name, 1);
                             }
                     }
                 }
