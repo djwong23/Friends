@@ -1,10 +1,9 @@
 package friends;
-
 import java.util.ArrayList;
-
+import java.util.HashMap;
+import java.util.HashSet;
 import structures.Queue;
 import structures.Stack;
-
 public class Friends {
     /**
      * Finds the shortest chain of people from p1 to p2.
@@ -19,7 +18,6 @@ public class Friends {
      * path from p1 to p2
      */
     public static ArrayList<String> shortestChain(Graph g, String p1, String p2) {
-
         //bfs; gets p1's index and creates a pointer to it, adds it to bfs queue and sets that it is visited
         boolean visited[] = new boolean[g.members.length];
         Queue q = new Queue<Person>();
@@ -74,7 +72,6 @@ public class Friends {
             return out;
         }
     }
-
     /**
      * Finds all cliques of students in a given school.
      * <p>
@@ -87,7 +84,7 @@ public class Friends {
      * given school
      */
     public static ArrayList<ArrayList<String>> cliques(Graph g, String school) {
-        boolean visited[] = new boolean[g.members.length];
+        boolean[] visited = new boolean[g.members.length];
         ArrayList<ArrayList<String>> out = new ArrayList<ArrayList<String>>();
         ArrayList<String> in = new ArrayList<String>();
         Person p = null;
@@ -113,7 +110,6 @@ public class Friends {
                                     in.add(g.members[f.fnum].name);
                                 }
                             }
-
                         }
                         f = f.next;
                     }
@@ -123,10 +119,8 @@ public class Friends {
                 in.clear();
             }
         }
-
         return (out.size() == 0) ? null : out;
     }
-
     /**
      * Finds and returns all connectors in the graph.
      *
@@ -134,9 +128,49 @@ public class Friends {
      * @return Names of all connectors. Null if there are no connectors.
      */
     public static ArrayList<String> connectors(Graph g) {
-        /** COMPLETE THIS METHOD **/
-        // FOLLOWING LINE IS A PLACEHOLDER TO MAKE COMPILER HAPPY
-        // CHANGE AS REQUIRED FOR YOUR IMPLEMENTATION
-        return null;
+        boolean visited[] = new boolean[g.members.length];
+        int[] dfsNum = new int[g.members.length];
+        int[] back = new int[g.members.length];
+        ArrayList<String> connectors = new ArrayList<>();
+        HashSet<String> cons = new HashSet<>();
+        int count = 1;
+        for (int i = 0; i < visited.length; i++) {
+            if (visited[i] == false) {
+                DFS(true, g, g.members[i], visited, dfsNum, back, connectors, count, cons);
+            }
+        }
+        return connectors;
+    }
+
+    private static void DFS(boolean start, Graph g, Person p, boolean[] visited, int[] dfsNum, int[] back, ArrayList<String> connectors, int count, HashSet cons) {
+        int num = g.map.get(p.name);
+        visited[num] = true;
+        dfsNum[num] = count;
+        back[num] = count;
+        count++;
+        Friend f = p.first;
+        while (f != null) {
+            if (visited[f.fnum] == false) {
+                DFS(false, g, g.members[f.fnum], visited, dfsNum, back, connectors, count, cons); //if friend not visited, recurse dfs on friend
+                if (dfsNum[num] > back[f.fnum])
+                    back[num] = Math.min(back[num], back[f.fnum]);
+                else if (dfsNum[num] <= back[f.fnum]) {
+                    if (!start) {
+                        if (!cons.contains(p.name)) {
+                            connectors.add(p.name);
+                            cons.add(p.name);
+                        }
+                    } else if (start) { //if it is the start of the DFS, as long as it has two friends and other conditions are fulfilled, it should still be a connector
+                        if (p.first != null && p.first.next != null)
+                            if (!cons.contains(p.name)) {
+                                connectors.add(p.name);
+                                cons.add(p.name);
+                            }
+                    }
+                }
+            } else
+                back[num] = Math.min(back[num], dfsNum[f.fnum]);
+            f = f.next;
+        }
     }
 }
