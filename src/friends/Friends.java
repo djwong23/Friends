@@ -1,6 +1,5 @@
 package friends;
 import java.util.ArrayList;
-import java.util.HashMap;
 import structures.Queue;
 import structures.Stack;
 public class Friends {
