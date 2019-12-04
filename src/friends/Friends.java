@@ -87,20 +87,19 @@ public class Friends {
         ArrayList<String> in = new ArrayList<String>();
         Person p = null;
         Queue q = new Queue<Person>();
-        for (int j = 0; j < visited.length; j++) { //go through all people who are not visited and check all their friends + schools
+        for (int j = 0; j < visited.length; j++) {
+            System.out.println(g.members[j].name);//go through all people who are not visited and check all their friends + schools
             if (visited[j] == false) {
                 p = g.members[j];
+                visited[j] = true;
                 q.enqueue(p);
                 while (q.size() != 0) { //while the queue has people in it
                     p = (Person) q.dequeue();
                     Friend f = p.first;
-                    if (f == null) { //if this guy has no friends, check if he belongs to the school
-                        if (p.school.equals(school))
-                            in.add(p.name);
-                    }
                     while (f != null) { //while this person currently dequeued has friends
                         if (!visited[f.fnum]) { //if it isn't visited, mark it as such and enqueue it
                             visited[f.fnum] = true;
+                            System.out.println(g.members[f.fnum].name);
                             String sch = g.members[f.fnum].school;
                             if (sch != null) {//if this friend is the same school then put him in "in"
                                 if (sch.equals(school)) {
@@ -110,6 +109,10 @@ public class Friends {
                             }
                         }
                         f = f.next;
+                    }
+                    if (p.school != null) {
+                        if (p.school.equals(school) && in.indexOf(p.name) == -1)
+                            in.add(p.name);
                     }
                 }
                 if (in.size() > 0)

@@ -9,7 +9,7 @@ import java.util.Stack;
 public class Test {
 
     public static void main(String[] args) throws FileNotFoundException {
-        Scanner sc = new Scanner(new File("test.txt"));
+        Scanner sc = new Scanner(new File("test3.txt"));
         Graph graph = new Graph(sc);
         Scanner re = new Scanner(System.in);
         int num = 0;
