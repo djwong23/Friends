@@ -27,8 +27,7 @@ public class Friends {
         Person p = null;
         ArrayList<String> out = new ArrayList<String>();
         if (p1.equals(p2)) {
-            out.add(p1);
-            return out;
+            return null;
         }
         while (q.size() != 0) { //while the queue has people in it
             p = (Person) q.dequeue();
