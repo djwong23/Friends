@@ -133,16 +133,17 @@ public class Friends {
         int[] back = new int[g.members.length];
         ArrayList<String> connectors = new ArrayList<>();
         ArrayList<String> cons = new ArrayList<>();
+        boolean[] backed = new boolean[g.members.length];
         int count = 1;
         for (int i = 0; i < visited.length; i++) {
             if (visited[i] == false) {
-                DFS(true, g, g.members[i], visited, dfsNum, back, connectors, count, cons);
+                DFS(true, g, g.members[i], visited, dfsNum, back, connectors, count, cons, backed);
             }
         }
         return (connectors.size() > 0) ? connectors : null;
     }
 
-    private static void DFS(boolean start, Graph g, Person p, boolean[] visited, int[] dfsNum, int[] back, ArrayList<String> connectors, int count, ArrayList<String> cons) {
+    private static void DFS(boolean start, Graph g, Person p, boolean[] visited, int[] dfsNum, int[] back, ArrayList<String> connectors, int count, ArrayList<String> cons, boolean[] backed) {
         int num = g.map.get(p.name);
         visited[num] = true;
         dfsNum[num] = count;
@@ -151,7 +152,7 @@ public class Friends {
         Friend f = p.first;
         while (f != null) {
             if (visited[f.fnum] == false) {
-                DFS(false, g, g.members[f.fnum], visited, dfsNum, back, connectors, count, cons); //if friend not visited, recurse dfs on friend
+                DFS(false, g, g.members[f.fnum], visited, dfsNum, back, connectors, count, cons, backed); //if friend not visited, recurse dfs on friend
                 if (dfsNum[num] > back[f.fnum])
                     back[num] = Math.min(back[num], back[f.fnum]);
                 else if (dfsNum[num] <= back[f.fnum]) {
@@ -161,13 +162,14 @@ public class Friends {
                             cons.add(p.name);
                         }
                     } else if (start) { //if it is the start of the DFS, as long as it has two friends and other conditions are fulfilled, it should still be a connector
-                        if (p.first != null && p.first.next != null)
+                        if (backed[g.map.get(p.name)])
                             if (cons.indexOf(p.name) == -1) {
                                 connectors.add(p.name);
                                 cons.add(p.name);
                             }
                     }
                 }
+                backed[g.map.get(p.name)] = true;
             } else
                 back[num] = Math.min(back[num], dfsNum[f.fnum]);
             f = f.next;
