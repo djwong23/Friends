@@ -30,7 +30,7 @@ public class Friends {
         if (p1.equals(p2)) {
             return null;
         }
-        HashMap<String, String> prev = new HashMap<>();
+        HashMap<String, String> prev = new HashMap<>(); //keeps the friend's "parent" or previous to store the chain
         while (q.size() != 0) { //while the queue has people in it
             p = (Person) q.dequeue();
             dq.push(p.name); //dq stack will be used to remember the order of the people
@@ -69,7 +69,7 @@ public class Friends {
                 }
                 */
             String s = out.get(0);
-            while (prev.get(s) != null) {
+            while (prev.get(s) != null) { //adds the people to the out in reverse order
                 out.add(0, prev.get(s));
                 s = prev.get(s);
             }
@@ -168,7 +168,7 @@ public class Friends {
                             connectors.add(p.name);
                             cons.add(p.name);
                         }
-                    } else if (start) { //if it is the start of the DFS, as long as it has two friends and other conditions are fulfilled, it should still be a connector
+                    } else if (start) { //if it is the start of the DFS, as long as it has been backed up once, it should still be a connector
                         if (backed[g.map.get(p.name)])
                             if (cons.indexOf(p.name) == -1) {
                                 connectors.add(p.name);
