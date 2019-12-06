@@ -1,11 +1,8 @@
 package friends;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import structures.Queue;
 import structures.Stack;
-
 public class Friends {
     /**
      * Finds the shortest chain of people from p1 to p2.
@@ -80,7 +77,6 @@ public class Friends {
             return out;
         }
     }
-
     /**
      * Finds all cliques of students in a given school.
      * <p>
@@ -133,7 +129,6 @@ public class Friends {
         }
         return (out.size() == 0) ? null : out;
     }
-
     /**
      * Finds and returns all connectors in the graph.
      *
@@ -155,7 +150,6 @@ public class Friends {
         }
         return (connectors.size() > 0) ? connectors : null;
     }
-
     private static void DFS(boolean start, Graph g, Person p, boolean[] visited, int[] dfsNum, int[] back, ArrayList<String> connectors, int count, ArrayList<String> cons, boolean[] backed) {
         int num = g.map.get(p.name);
         visited[num] = true;
