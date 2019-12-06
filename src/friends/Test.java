@@ -9,10 +9,33 @@ import java.util.Stack;
 public class Test {
 
     public static void main(String[] args) throws FileNotFoundException {
-        Scanner sc = new Scanner(new File("test.txt"));
+        Scanner sc = new Scanner(new File("test3.txt"));
         Graph graph = new Graph(sc);
         Scanner re = new Scanner(System.in);
         int num = 0;
+        String f1 = "";
+        String f2 = "";
+        ArrayList<String> shortest = new ArrayList<>();
+        ArrayList<String> out = Friends.connectors(graph);
+        if (out != null) {
+            for (String s : out) {
+                System.out.print(s + " ");
+            }
+        } else
+            System.out.println("No connectors");
+        //shortest = Friends.shortestChain(graph, "sam", "sergei");
+        //System.out.println("path from " + f1 + " to " + f2 + ": "+ shortest);
+        /*for (int i=0; i< graph.members.length; i++) {
+            for (int j=0; j<graph.members.length;j++) {
+                f1 = graph.members[i].name;
+                f2 = graph.members[j].name;
+                shortest = Friends.shortestChain(graph, f1, f2);
+                System.out.println("path from " + f1 + " to " + f2 + ": "+ shortest);
+            }
+        }
+        */
+
+        /*
         System.out.print("Method? ");
         num = re.nextInt();
         while (num != -1) {
@@ -53,6 +76,7 @@ public class Test {
             System.out.print("Method? ");
             num = re.nextInt();
         }
+        */
 
 
     }

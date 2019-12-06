@@ -1,7 +1,11 @@
 package friends;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import structures.Queue;
 import structures.Stack;
+
 public class Friends {
     /**
      * Finds the shortest chain of people from p1 to p2.
@@ -29,6 +33,7 @@ public class Friends {
         if (p1.equals(p2)) {
             return null;
         }
+        HashMap<String, String> prev = new HashMap<>();
         while (q.size() != 0) { //while the queue has people in it
             p = (Person) q.dequeue();
             dq.push(p.name); //dq stack will be used to remember the order of the people
@@ -37,6 +42,7 @@ public class Friends {
                 if (!visited[f.fnum]) { //if it isn't visited, mark it as such and enqueue it
                     visited[f.fnum] = true;
                     q.enqueue(g.members[f.fnum]);
+                    prev.put(g.members[f.fnum].name, p.name);
                 }
                 if (g.members[f.fnum].name.equals(p2)) { //if this friend is who you are looking for then break out, and look at your stack of dequeued people
                     out.add(g.members[f.fnum].name);
@@ -49,7 +55,7 @@ public class Friends {
         }
         if (out.size() == 0) {
             return null;
-        } else {
+        } else { /*
             if (!p1.equals(p.name))
                 out.add(0, p.name); //p is currently the person who directly links to the target
             while (dq.size() > 1) {
@@ -64,11 +70,17 @@ public class Friends {
                     }
                     f = f.next;
                 }
+                */
+            String s = out.get(0);
+            while (prev.get(s) != null) {
+                out.add(0, prev.get(s));
+                s = prev.get(s);
             }
-            out.add(0, (String) dq.pop());
+            //out.add(0, (String) dq.pop());
             return out;
         }
     }
+
     /**
      * Finds all cliques of students in a given school.
      * <p>
@@ -121,6 +133,7 @@ public class Friends {
         }
         return (out.size() == 0) ? null : out;
     }
+
     /**
      * Finds and returns all connectors in the graph.
      *
